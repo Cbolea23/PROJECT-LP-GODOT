@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwqovx5qdnaxl"]
+
+[ext_resource type="Script" uid="uid://jhb48ehmig6" path="res://script/pickup.gd" id="1_bi2pr"]
+[ext_resource type="PackedScene" uid="uid://cgq1gpuqt0c2p" path="res://models/Flashlight.glb" id="1_sq8h5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bbtpq"]
+radius = 0.26464844
+height = 2.5343704
+
+[node name="Pickup_Flashlight" type="RigidBody3D" groups=["flashlight", "pickable"]]
+collision_layer = 2
+script = ExtResource("1_bi2pr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.345, 0, 0, 0, -0.0020592832, 0.34499386, 0, -0.34499386, -0.0020592832, 0, -1.2656887e-05, -0.002120422)
+shape = SubResource("CapsuleShape3D_bbtpq")
+
+[node name="Flashlight2" parent="." instance=ExtResource("1_sq8h5")]
+transform = Transform3D(0.035, 0, 0, 0, 0.035, 0, 0, 0, 0.035, 0, 0, 0)
