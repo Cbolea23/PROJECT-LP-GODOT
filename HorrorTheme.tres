@@ -1,0 +1,43 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://dlvsl46dhcp3d"]
+
+[ext_resource type="FontFile" uid="uid://ictw10pccmv8" path="res://Ghastly Panic.ttf" id="1_5rbrs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5rbrs"]
+bg_color = Color(0.29503548, 0.037077263, 0.055458143, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.16924524, 0.16924533, 0.16924512, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wb4pg"]
+bg_color = Color(0, 0, 0, 0.77254903)
+border_color = Color(0.38626903, 0.041157886, 0.09222039, 1)
+shadow_size = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6f3ds"]
+bg_color = Color(0.33333334, 0.05490196, 0.0627451, 1)
+shadow_color = Color(0.011087579, 0.011087578, 0.01108758, 0.6)
+shadow_size = 10
+shadow_offset = Vector2(3.11, 1.915)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_78l1x"]
+bg_color = Color(0.16206557, 0.1620656, 0.16206548, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fhy4j"]
+bg_color = Color(0.49239355, 0.52583635, 0.5217533, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.00045830492, 4.410115e-07, 4.4978046e-07, 1)
+
+[resource]
+Button/font_sizes/font_size = 32
+Button/fonts/font = ExtResource("1_5rbrs")
+Button/styles/hover = SubResource("StyleBoxFlat_5rbrs")
+Button/styles/normal = SubResource("StyleBoxFlat_wb4pg")
+Button/styles/pressed = SubResource("StyleBoxFlat_6f3ds")
+ProgressBar/fonts/font = ExtResource("1_5rbrs")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_78l1x")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_fhy4j")

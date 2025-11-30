@@ -1,0 +1,85 @@
+[gd_scene load_steps=8 format=3 uid="uid://bsb8hr8kfs3sk"]
+
+[ext_resource type="Script" uid="uid://c1dqmfldk807r" path="res://floor.gd" id="1_wm4b4"]
+[ext_resource type="PackedScene" uid="uid://bwqovx5qdnaxl" path="res://Pickup_Flashlight.tscn" id="2_qbq3j"]
+[ext_resource type="PackedScene" uid="uid://l74kyq8kj806" path="res://Player.tscn" id="2_sr8py"]
+[ext_resource type="PackedScene" uid="uid://dohy471whx7gh" path="res://Pickup_Item.tscn" id="3_ragr8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_spmh5"]
+size = Vector3(104.7854, 1, 121.033554)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wm4b4"]
+
+[sub_resource type="Environment" id="Environment_ragr8"]
+volumetric_fog_enabled = true
+volumetric_fog_albedo = Color(0.6789437, 0.6789437, 0.6789437, 1)
+
+[node name="Floor" type="Node3D"]
+script = ExtResource("1_wm4b4")
+player_scene = ExtResource("2_sr8py")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8861084, 0, -0.03214264)
+shape = SubResource("BoxShape3D_spmh5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(102.7315, 0, 0, 0, 1, 0, 0, 0, 120.33377, 0, 0, 0)
+mesh = SubResource("BoxMesh_wm4b4")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.7396898, 0.67294794, 0, -0.67294794, 0.7396898, 0, 10.812483, 0)
+shadow_enabled = true
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://l74kyq8kj806")
+spawn_path = NodePath("..")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ragr8")
+
+[node name="Pickup_Flashlight" parent="." instance=ExtResource("2_qbq3j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.51152325, 3.7306073, -6)
+
+[node name="Pickup_Item" parent="." instance=ExtResource("3_ragr8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.072315, -14.933183)
+
+[node name="WALL" type="StaticBody3D" parent="."]
+transform = Transform3D(0.205, 0, 0, 0, -8.960835e-09, -0.205, 0, 0.205, -8.960835e-09, 0, 3.9066544, 21.849579)
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="WALL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7722168, 0, -0.06428528)
+shape = SubResource("BoxShape3D_spmh5")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="WALL"]
+transform = Transform3D(102.7315, 0, 0, 0, 1, 0, 0, 0, 120.33377, -0.8861084, 0, -0.03214264)
+mesh = SubResource("BoxMesh_wm4b4")
+skeleton = NodePath("../../StaticBody3D/CollisionShape3D")
+
+[node name="SpawnPoints" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8681663, 0)
+
+[node name="Spawn1" type="Marker3D" parent="SpawnPoints"]
+
+[node name="Spawn2" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.747821, 0, 0)
+
+[node name="Spawn3" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.735317, 0, 0)
+
+[node name="Spawn4" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.8076086)
+
+[node name="Spawn5" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.270751)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="MessageLabel" type="Label" parent="HUD"]
+offset_left = 1.0
+offset_top = 98.0
+offset_right = 130.0
+offset_bottom = 143.0
+theme_override_colors/font_color = Color(0.87685436, 0.8383042, 7.70092e-07, 1)
+theme_override_font_sizes/font_size = 32

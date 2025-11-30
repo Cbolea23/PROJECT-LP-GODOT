@@ -1,0 +1,149 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5bd6tv5f4mrx"]
+
+[ext_resource type="Texture2D" uid="uid://dt2v11sqtqcsx" path="res://icon.svg" id="1_fyqef"]
+[ext_resource type="Script" uid="uid://ds2363eig827h" path="res://InventorySlot.gd" id="2_m6e0p"]
+[ext_resource type="Texture2D" uid="uid://dlx0ytwj4c83d" path="res://crosshair-icon-1022053-512.png" id="3_27fn8"]
+[ext_resource type="Theme" uid="uid://dlvsl46dhcp3d" path="res://HorrorTheme.tres" id="4_nltto"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Hotbar" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 401.0
+offset_right = 422.0
+offset_bottom = 465.0
+mouse_filter = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Hotbar"]
+layout_mode = 2
+
+[node name="Slot1" type="TextureRect" parent="Hotbar/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1_fyqef")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_m6e0p")
+slot_type = 1
+
+[node name="Slot2" type="TextureRect" parent="Hotbar/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1_fyqef")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_m6e0p")
+slot_type = 1
+slot_index = 1
+
+[node name="Slot3" type="TextureRect" parent="Hotbar/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1_fyqef")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_m6e0p")
+slot_type = 1
+slot_index = 2
+
+[node name="Inventory" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 138.0
+offset_right = 422.0
+offset_bottom = 270.0
+mouse_filter = 1
+
+[node name="GridContainer" type="GridContainer" parent="Inventory"]
+layout_mode = 2
+columns = 3
+
+[node name="Bag1" type="TextureRect" parent="Inventory/GridContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1_fyqef")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_m6e0p")
+
+[node name="Bag2" type="TextureRect" parent="Inventory/GridContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1_fyqef")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_m6e0p")
+slot_index = 1
+
+[node name="Bag3" type="TextureRect" parent="Inventory/GridContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1_fyqef")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_m6e0p")
+slot_index = 2
+
+[node name="Bag4" type="TextureRect" parent="Inventory/GridContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1_fyqef")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_m6e0p")
+slot_index = 3
+
+[node name="Bag5" type="TextureRect" parent="Inventory/GridContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1_fyqef")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_m6e0p")
+slot_index = 4
+
+[node name="Bag6" type="TextureRect" parent="Inventory/GridContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1_fyqef")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_m6e0p")
+slot_index = 5
+
+[node name="Crosshair" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 492.0
+offset_bottom = 472.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.07107265, 0.07066605)
+mouse_filter = 2
+texture = ExtResource("3_27fn8")
+
+[node name="StaminaBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_left = 321.0
+offset_top = 385.0
+offset_right = 421.0
+offset_bottom = 399.0
+theme = ExtResource("4_nltto")
+value = 100.0
+show_percentage = false
