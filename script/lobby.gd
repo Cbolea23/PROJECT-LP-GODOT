@@ -106,4 +106,4 @@ func _on_quit_pressed():
 	get_tree().quit()
 
 func _start_game():
-	get_tree().change_scene_to_file("res://scene/Floor.tscn")
+	get_tree().change_scene_to_file("res://scene/Test Level.tscn")

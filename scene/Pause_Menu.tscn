@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://ck6oor85vp612"]
+[gd_scene load_steps=7 format=3 uid="uid://ck6oor85vp612"]
 
 [ext_resource type="Script" uid="uid://v3gue7q3m27m" path="res://script/PauseMenu.gd" id="1_eu8ou"]
 [ext_resource type="Theme" uid="uid://dlvsl46dhcp3d" path="res://HorrorTheme.tres" id="1_yrbao"]
@@ -9,7 +9,14 @@ Label/colors/font_color = Color(0.8149733, 0, 0.0136091625, 1)
 Label/font_sizes/font_size = 62
 Label/fonts/font = ExtResource("3_1rpp1")
 
+[sub_resource type="SystemFont" id="SystemFont_rqcak"]
+
+[sub_resource type="Theme" id="Theme_kdlpy"]
+TabContainer/font_sizes/font_size = 23
+TabContainer/fonts/font = ExtResource("3_1rpp1")
+
 [node name="PauseMenu" type="Control"]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,47 +26,51 @@ grow_vertical = 2
 theme = ExtResource("1_yrbao")
 script = ExtResource("1_eu8ou")
 
-[node name="Title" type="Label" parent="."]
-layout_mode = 0
-offset_left = 72.0
-offset_top = 35.0
-offset_right = 160.0
-offset_bottom = 58.0
-theme = SubResource("Theme_pbcds")
-theme_override_colors/font_shadow_color = Color(0.022595325, 0.022899466, 0.020369057, 1)
-text = "PROJECT LP"
-horizontal_alignment = 1
-
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
 offset_right = 640.0
 offset_bottom = 478.0
 color = Color(0, 0, 0, 0.31764707)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect"]
 layout_mode = 0
-offset_left = 62.0
-offset_top = 129.0
-offset_right = 132.0
-offset_bottom = 230.0
-scale = Vector2(3.3014162, 1.6545031)
+offset_left = 55.0
+offset_top = 184.00002
+offset_right = 185.0
+offset_bottom = 387.0
+scale = Vector2(1.4385858, 0.7332882)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/HBoxContainer"]
 layout_mode = 2
 
-[node name="Resume" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="Resume" type="Button" parent="ColorRect/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Resume"
 
-[node name="Settings" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="Settings" type="Button" parent="ColorRect/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Settings"
 
-[node name="Quit" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="Quit" type="Button" parent="ColorRect/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Main Menu"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+[node name="Title" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 39.0
+offset_right = 172.0
+offset_bottom = 97.0
+scale = Vector2(1.8518518, 1.6470588)
+theme = SubResource("Theme_pbcds")
+theme_override_colors/font_shadow_color = Color(0.022595325, 0.022899466, 0.020369057, 1)
+text = "PROJECT LP"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ColorRect"]
 layout_mode = 0
 offset_left = 367.00003
 offset_top = 71.00001
@@ -67,9 +78,120 @@ offset_right = 455.00003
 offset_bottom = 121.00001
 scale = Vector2(1.8359991, 1.7108834)
 
-[node name="PlayerListContainer" type="VBoxContainer" parent="HBoxContainer2"]
+[node name="PlayerListContainer" type="VBoxContainer" parent="ColorRect/HBoxContainer2"]
 layout_mode = 2
 
-[node name="Player List" type="Label" parent="HBoxContainer2/PlayerListContainer"]
+[node name="Player List" type="Label" parent="ColorRect/HBoxContainer2/PlayerListContainer"]
 layout_mode = 2
 text = "Player here"
+
+[node name="SettingsContainer" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 254.0
+offset_top = 148.0
+offset_right = 646.91296
+offset_bottom = 461.37616
+scale = Vector2(0.86787665, 0.7722349)
+theme = ExtResource("1_yrbao")
+
+[node name="TabContainer" type="TabContainer" parent="SettingsContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -184.93411
+offset_top = -145.0336
+offset_right = 207.06589
+offset_bottom = 18.9664
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_yrbao")
+current_tab = 1
+
+[node name="Gameplay" type="VBoxContainer" parent="SettingsContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("1_yrbao")
+metadata/_tab_index = 0
+
+[node name="FullscreenBtn" type="CheckButton" parent="SettingsContainer/TabContainer/Gameplay"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_yrbao")
+text = "fULLSCREEN"
+
+[node name="CameraBtn" type="CheckButton" parent="SettingsContainer/TabContainer/Gameplay"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "FIRST person"
+
+[node name="Controls" type="VBoxContainer" parent="SettingsContainer/TabContainer"]
+layout_mode = 2
+theme = ExtResource("1_yrbao")
+metadata/_tab_index = 1
+
+[node name="sens" type="Label" parent="SettingsContainer/TabContainer/Controls"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Camera Sensitivity"
+
+[node name="SensSlider" type="HSlider" parent="SettingsContainer/TabContainer/Controls/sens"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 247.73105
+offset_top = 6.553356
+offset_right = 377.93387
+offset_bottom = 35.04211
+max_value = 0.01
+step = 0.0
+value = 0.003
+
+[node name="InvertYBtn" type="CheckButton" parent="SettingsContainer/TabContainer/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_yrbao")
+theme_override_fonts/font = SubResource("SystemFont_rqcak")
+theme_override_font_sizes/font_size = 25
+text = "Invert Y AXIS
+"
+
+[node name="InvertXBtn" type="CheckButton" parent="SettingsContainer/TabContainer/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = SubResource("Theme_kdlpy")
+theme_override_fonts/font = SubResource("SystemFont_rqcak")
+theme_override_font_sizes/font_size = 25
+text = "Invert X AXIS
+"
+
+[node name="Audio" type="VBoxContainer" parent="SettingsContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("1_yrbao")
+metadata/_tab_index = 2
+
+[node name="Audio" type="Label" parent="SettingsContainer/TabContainer/Audio"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Master Volume"
+
+[node name="SensSlider" type="HSlider" parent="SettingsContainer/TabContainer/Audio/Audio"]
+layout_mode = 0
+offset_left = 247.73105
+offset_top = 6.553356
+offset_right = 381.3906
+offset_bottom = 35.04211
+max_value = 0.01
+step = 0.0
+value = 0.003
+
+[node name="BackBtn" type="Button" parent="SettingsContainer"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -229.29526
+offset_top = 111.36508
+offset_right = -11.522339
+offset_bottom = 176.3651
+text = "Go back"

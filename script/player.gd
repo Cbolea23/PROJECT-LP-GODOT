@@ -5,7 +5,6 @@ const RUN_SPEED = 7.0
 const ROLL_SPEED = 12.0 
 const ACCELERATION = 60.0
 const DECELERATION = 60.0
-const MOUSE_SENSITIVITY = 0.003
 const MESH_ROTATION_OFFSET = 0.0 
 const LEAN_AMOUNT = 0.15         
 const LEAN_SPEED = 8.0           
@@ -32,10 +31,14 @@ const ANIM_ROLL = "CharacterArmature|Roll"
 @onready var spring_arm = $Head/SpringArm3D 
 @onready var camera = $Head/SpringArm3D/Camera3D
 @onready var interaction_ray = $Head/SpringArm3D/Camera3D/RayCast3D
-
 @onready var ui_hotbar_slots = [$UI/Hotbar/HBoxContainer/Slot1, $UI/Hotbar/HBoxContainer/Slot2, $UI/Hotbar/HBoxContainer/Slot3]
 @onready var ui_bag_slots = [$UI/Inventory/GridContainer/Bag1, $UI/Inventory/GridContainer/Bag2, $UI/Inventory/GridContainer/Bag3, $UI/Inventory/GridContainer/Bag4, $UI/Inventory/GridContainer/Bag5, $UI/Inventory/GridContainer/Bag6]
 @onready var skins = [ %Skin_Beach, %Skin_Formal, %Skin_Punk ]
+
+# --- SETTINGS VARIABLES ---
+var mouse_sensitivity = 0.003
+var invert_y = false
+var invert_x = false
 
 var hotbar_data = [0, 0, 0] 
 var inventory_data = [0, 0, 0, 0, 0, 0] 
@@ -44,6 +47,7 @@ var is_first_person = false
 var current_stamina = MAX_STAMINA
 var is_rolling = false
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var ps1_shader = preload("res://ps1_jitter.gdshader")
 
 var original_flashlight_parent 
 var original_flashlight_pos = Vector3.ZERO
@@ -60,6 +64,7 @@ func _enter_tree():
 	add_to_group("player")
 
 func _ready():
+	apply_ps1_shader_to_skins()
 	armature.rotation_degrees.y = MESH_ROTATION_OFFSET
 	
 	if flashlight_light:
@@ -105,16 +110,19 @@ func _unhandled_input(event):
 		if event.keycode == KEY_1: set_active_slot(0)
 		if event.keycode == KEY_2: set_active_slot(1)
 		if event.keycode == KEY_3: set_active_slot(2)
-		if event.keycode == KEY_V: toggle_camera_mode()
+		# REMOVED KEY_V here
 
 	if Input.is_action_just_pressed("right_click"): toggle_flashlight()
 	if Input.is_action_just_pressed("interact"): try_pickup_item()
-	if Input.is_key_pressed(KEY_V): toggle_camera_mode()
 	if Input.is_action_just_pressed("roll"): attempt_roll()
 
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
-		head.rotation.x -= event.relative.y * MOUSE_SENSITIVITY
+		# APPLY INVERT SETTINGS
+		var dir_x = -1 if invert_x else 1
+		var dir_y = -1 if invert_y else 1
+		
+		rotate_y((-event.relative.x * mouse_sensitivity) * dir_x)
+		head.rotation.x -= (event.relative.y * mouse_sensitivity) * dir_y
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 
 func _physics_process(delta):
@@ -178,30 +186,24 @@ func toggle_camera_mode(force_update = false):
 		spring_arm.spring_length = 0
 		spring_arm.position = Vector3.ZERO
 		_set_mesh_shadow_mode(armature, GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY)
-		
-		if flashlight_light:
-			flashlight_light.top_level = true 
+		if flashlight_light: flashlight_light.top_level = true 
 	else:
 		spring_arm.spring_length = 1
 		spring_arm.position = Vector3(0.5, 0, 0)
 		_set_mesh_shadow_mode(armature, GeometryInstance3D.SHADOW_CASTING_SETTING_ON)
-		
 		if flashlight_light:
 			flashlight_light.top_level = false
 			flashlight_light.position = original_flashlight_pos
 			flashlight_light.rotation = original_flashlight_rot
 
 func _set_mesh_shadow_mode(node, mode):
-	if node is MeshInstance3D:
-		node.cast_shadow = mode
-	for child in node.get_children():
-		_set_mesh_shadow_mode(child, mode)
+	if node is MeshInstance3D: node.cast_shadow = mode
+	for child in node.get_children(): _set_mesh_shadow_mode(child, mode)
 
 func handle_animations(target_speed):
 	if is_rolling: return
 	var is_holding_flashlight = (hotbar_data[active_slot_index] == 1)
 	var current_anim = anim.current_animation
-	
 	if velocity.length() > 0.5:
 		if target_speed == RUN_SPEED:
 			var run_anim = ANIM_AIM_RUN if is_holding_flashlight else ANIM_RUN
@@ -250,8 +252,7 @@ func receive_item(item_id):
 func remove_object_globally(object_path):
 	if multiplayer.get_remote_sender_id() != 1: return
 	var object = get_node_or_null(object_path)
-	if object:
-		object.queue_free()
+	if object: object.queue_free()
 
 func add_item_to_data(arr, item_id):
 	for i in range(arr.size()):
@@ -278,19 +279,35 @@ func get_item_icon(id):
 @rpc("call_local", "reliable")
 func set_player_name(p_name):
 	player_name_value = p_name
-	if name_label: 
-		name_label.text = p_name
+	if name_label: name_label.text = p_name
 	
 func swap_inventory_items(from_idx, from_type, to_idx, to_type):
 	var item_moving = inventory_data[from_idx] if from_type == 0 else hotbar_data[from_idx]
 	var item_target = inventory_data[to_idx] if to_type == 0 else hotbar_data[to_idx]
-
 	if from_type == 0: inventory_data[from_idx] = item_target
 	else: hotbar_data[from_idx] = item_target
-
 	if to_type == 0: inventory_data[to_idx] = item_moving
 	else: hotbar_data[to_idx] = item_moving
-
 	update_all_ui()
 	if (from_type == 1 and from_idx == active_slot_index) or (to_type == 1 and to_idx == active_slot_index):
 		set_active_slot(active_slot_index)
+
+func apply_ps1_shader_to_skins():
+	for skin_root in skins:
+		if skin_root: _recursive_apply_shader(skin_root)
+
+func _recursive_apply_shader(node):
+	if node is MeshInstance3D:
+		var old_mat = node.get_active_material(0)
+		var tex = null
+		var col = Color.WHITE 
+		if old_mat:
+			if old_mat is StandardMaterial3D or old_mat is ORMMaterial3D:
+				tex = old_mat.albedo_texture
+				col = old_mat.albedo_color
+		var new_mat = ShaderMaterial.new()
+		new_mat.shader = ps1_shader
+		if tex: new_mat.set_shader_parameter("albedo_tex", tex)
+		new_mat.set_shader_parameter("albedo_color", col)
+		node.material_override = new_mat
+	for child in node.get_children(): _recursive_apply_shader(child)

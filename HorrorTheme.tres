@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://dlvsl46dhcp3d"]
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://dlvsl46dhcp3d"]
 
 [ext_resource type="FontFile" uid="uid://ictw10pccmv8" path="res://Ghastly Panic.ttf" id="1_5rbrs"]
 
@@ -21,6 +21,14 @@ shadow_color = Color(0.011087579, 0.011087578, 0.01108758, 0.6)
 shadow_size = 10
 shadow_offset = Vector2(3.11, 1.915)
 
+[sub_resource type="SystemFont" id="SystemFont_5rbrs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gf1nj"]
+bg_color = Color(0.869106, 0.19973814, 0.15846029, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cl72d"]
+bg_color = Color(0.69857013, 0.5614115, 0.5610193, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_78l1x"]
 bg_color = Color(0.16206557, 0.1620656, 0.16206548, 1)
 
@@ -33,11 +41,17 @@ border_width_bottom = 1
 border_color = Color(0.00045830492, 4.410115e-07, 4.4978046e-07, 1)
 
 [resource]
-Button/font_sizes/font_size = 32
+Button/font_sizes/font_size = 70
 Button/fonts/font = ExtResource("1_5rbrs")
 Button/styles/hover = SubResource("StyleBoxFlat_5rbrs")
 Button/styles/normal = SubResource("StyleBoxFlat_wb4pg")
 Button/styles/pressed = SubResource("StyleBoxFlat_6f3ds")
+CheckButton/font_sizes/font_size = 25
+CheckButton/fonts/font = SubResource("SystemFont_5rbrs")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_gf1nj")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_cl72d")
 ProgressBar/fonts/font = ExtResource("1_5rbrs")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_78l1x")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_fhy4j")
+TabContainer/font_sizes/font_size = 45
+TabContainer/fonts/font = ExtResource("1_5rbrs")
